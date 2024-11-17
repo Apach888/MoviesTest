@@ -9,15 +9,12 @@ import Foundation
 import Alamofire
 import Network
 
-/// Protocol defining methods for sending API requests.
-protocol APIClient {
+protocol APIService {
     func sendRequest<T: Decodable>(endpoint: Endpoint) async throws -> T
 }
 
-/// Extension providing a default implementation for APIClient.
-extension APIClient {
+extension APIService {
     
-    /// Alamofire Session with custom configuration.
     var session: Session {
         let configuration = URLSessionConfiguration.default
         configuration.waitsForConnectivity = true
@@ -26,35 +23,27 @@ extension APIClient {
         return Session(configuration: configuration)
     }
     
-    /// Sends a request to the specified endpoint and decodes the response.
     func sendRequest<T: Decodable>(endpoint: Endpoint) async throws -> T {
-        // Check for internet connectivity
         guard await isConnectedToInternet() else {
             throw APIError.noInternetConnection
         }
         
-        // Create the URLRequest from the endpoint
         let urlRequest = try endpoint.asURLRequest()
         
-        // Perform the request using Alamofire
         let dataTask = session.request(urlRequest)
             .validate(statusCode: 200..<300)
             .serializingDecodable(T.self)
         
-        // Await the response
         let response = await dataTask.response
         
-        // Handle the response
         switch response.result {
         case .success(let value):
             return value
         case .failure(let error):
-            // Map Alamofire error to APIError
             throw handleNetworkError(error: error, response: response.response)
         }
     }
     
-    /// Checks for internet connectivity using NWPathMonitor.
     private func isConnectedToInternet() async -> Bool {
         let monitor = NWPathMonitor()
         return await withCheckedContinuation { continuation in
@@ -70,8 +59,6 @@ extension APIClient {
             monitor.start(queue: queue)
         }
     }
-    
-    /// Maps Alamofire errors to custom APIError.
     private func handleNetworkError(error: AFError, response: HTTPURLResponse?) -> APIError {
         if let statusCode = response?.statusCode {
             switch statusCode {

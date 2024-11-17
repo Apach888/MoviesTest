@@ -7,7 +7,6 @@
 
 import Foundation
 
-/// An enumeration representing possible errors that can occur during API requests.
 enum APIError: Error, LocalizedError {
     case invalidURL
     case noData
@@ -21,7 +20,6 @@ enum APIError: Error, LocalizedError {
     case requestCancelled
     case unknownError(error: Error)
     
-    /// Provides a localized description of the error.
     var errorDescription: String? {
         switch self {
         case .invalidURL:
