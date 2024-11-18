@@ -17,9 +17,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         let window = UIWindow(windowScene: windowScene)
         window.backgroundColor = .white
-        let vc = MoviesListViewController()
-        let rootVC = UINavigationController(rootViewController: vc)
-        window.rootViewController = rootVC
+        let rootViewController = MoviesListBuilder().build()
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window
     }
