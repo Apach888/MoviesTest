@@ -32,7 +32,7 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
         isFetching = true
         let request = MovieRequest(page: currentPage, language: .localeIdentifier)
         
-        Task {
+        Task { @MainActor in
             do {
                 let response = try await moviesDataProvider.fetchPopularMovies(request: request)
                 totalPages = response.totalPages
@@ -41,10 +41,10 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
 
                 // Конвертируем MovieItem в MovieViewModel
                 let viewModels = response.results.map { MovieViewModel(movie: $0) }
-                await viewController?.displayMovies(viewModels)
+                viewController?.displayMovies(viewModels)
             } catch {
                 isFetching = false
-                await viewController?.displayError(error.localizedDescription)
+                viewController?.displayError(error.localizedDescription)
             }
         }
     }
