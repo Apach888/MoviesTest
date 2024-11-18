@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol MoviesListViewProtocol: AnyObject {
     func displayMovies(_ movies: [MovieViewModel])
@@ -26,15 +27,13 @@ class MoviesListViewController: UIViewController {
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 200)
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
-        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
+        collectionView.register(MovieCell.self)
         return collectionView
     }()
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
@@ -46,7 +45,6 @@ class MoviesListViewController: UIViewController {
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .gray
         label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -78,22 +76,22 @@ class MoviesListViewController: UIViewController {
     private func setupUI() {
         title = "Movies"
         view.backgroundColor = .white
+        
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
         view.addSubview(nothingFoundLabel)
-
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-            nothingFoundLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nothingFoundLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        nothingFoundLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 
     // MARK: - Diffable Data Source Updates
@@ -110,7 +108,9 @@ class MoviesListViewController: UIViewController {
 
 extension MoviesListViewController: MoviesListViewProtocol {
     func displayError(_ error: String) {
-        print(error)
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
 
     func displayMovies(_ movies: [MovieViewModel]) {

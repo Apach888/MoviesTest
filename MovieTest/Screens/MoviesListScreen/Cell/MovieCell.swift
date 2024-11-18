@@ -10,13 +10,21 @@ import SDWebImage
 
 final class MovieCell: UICollectionViewCell {
     
-    static let reuseIdentifier = String(describing: MovieCell.self)
+    // MARK: - Constants
+    private enum Constants {
+        static let cornerRadius: CGFloat = 8
+        static let posterHeightMultiplier: CGFloat = 0.75
+        static let titleTopOffset: CGFloat = 8
+        static let horizontalPadding: CGFloat = 8
+        static let placeholderImageName = "placeholder"
+    }
+    
+    // MARK: - UI Elements
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -24,37 +32,46 @@ final class MovieCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = Constants.cornerRadius
         return imageView
     }()
     
+    // MARK: - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(posterImageView)
-        contentView.addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.75),
-            
-            titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
-        ])
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup UI
+    
+    private func setupUI() {
+        contentView.addSubview(posterImageView)
+        contentView.addSubview(titleLabel)
+        
+        posterImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(Constants.posterHeightMultiplier)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.bottom).offset(Constants.titleTopOffset)
+            make.leading.equalToSuperview().offset(Constants.horizontalPadding)
+            make.trailing.equalToSuperview().inset(Constants.horizontalPadding)
+        }
+    }
+    
+    // MARK: - Configuration
+    
     func configure(with movie: MovieViewModel) {
         titleLabel.text = movie.title
         posterImageView.sd_setImage(
             with: movie.posterURL,
-            placeholderImage: UIImage(named: "placeholder")
+            placeholderImage: UIImage(named: Constants.placeholderImageName)
         )
     }
 }
