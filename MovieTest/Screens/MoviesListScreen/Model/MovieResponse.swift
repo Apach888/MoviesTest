@@ -20,7 +20,7 @@ struct MovieResponse: Decodable {
     }
 }
 
-struct MovieItem: Decodable {
+struct MovieItem: Decodable, Hashable {
     let id: Int
     let title: String
     let posterPath: String
@@ -34,5 +34,13 @@ struct MovieItem: Decodable {
         case releaseDate = "release_date"
         case genreIDs = "genre_ids"
         case voteAverage = "vote_average"
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: MovieItem, rhs: MovieItem) -> Bool {
+        lhs.id == rhs.id
     }
 }

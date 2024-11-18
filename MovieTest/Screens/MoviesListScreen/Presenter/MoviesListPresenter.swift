@@ -15,6 +15,10 @@ class MoviesListPresenter {
     private let moviesDataProvider: MoviesDataProviderProtocol
     private weak var viewController: MoviesListViewProtocol?
     
+    private var currentPage = 1
+    private var totalPages = 1
+    private var isFetching = false
+    
     init(moviesDataProvider: MoviesDataProviderProtocol, viewController: MoviesListViewProtocol) {
         self.moviesDataProvider = moviesDataProvider
         self.viewController = viewController
@@ -23,13 +27,24 @@ class MoviesListPresenter {
 
 extension MoviesListPresenter: MoviesListPresenterProtocol {
     func fetchMovies() {
-        let request = MovieRequest(page: 1, language: .localeIdentifier)
+        guard !isFetching, currentPage <= totalPages else { return }
+        
+        isFetching = true
+        let request = MovieRequest(page: currentPage, language: .localeIdentifier)
+        
         Task {
             do {
                 let response = try await moviesDataProvider.fetchPopularMovies(request: request)
-                viewController?.displayMovies(response.results)
+                totalPages = response.totalPages
+                currentPage += 1
+                isFetching = false
+
+                // Конвертируем MovieItem в MovieViewModel
+                let viewModels = response.results.map { MovieViewModel(movie: $0) }
+                await viewController?.displayMovies(viewModels)
             } catch {
-                viewController?.displayError(error.localizedDescription)
+                isFetching = false
+                await viewController?.displayError(error.localizedDescription)
             }
         }
     }
