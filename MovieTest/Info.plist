@@ -2,22 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
-		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>Default Configuration</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+    <key>APIConfiguration</key>
+    <dict>
+        <key>Scheme</key>
+        <string>https</string>
+        <key>Host</key>
+        <string>api.themoviedb.org</string>
+        <key>AccessToken</key>
+        <string>eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTVmN2IxMWRmYzBhYjE4YWI3MjE1YjFiYWI4YjMzYyIsIm5iZiI6MTcxOTA1ODQ5My4xMjAyNDEsInN1YiI6IjY1MDVlOTgyZmEyN2Y0MDEyZDVhMzBmZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Oq1_zfOvB-sF_djjuJl5gzYPRlGJYr1sEsQMHfNYxD8</string>
+    </dict>
 </dict>
 </plist>
