@@ -40,7 +40,7 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
                 isFetching = false
 
                 // Конвертируем MovieItem в MovieViewModel
-                let viewModels = response.results.map { MovieViewModel(movie: $0) }
+                let viewModels = response.results.map { MovieViewModel(from: $0) }
                 viewController?.displayMovies(viewModels)
             } catch {
                 isFetching = false
