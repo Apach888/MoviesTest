@@ -9,20 +9,20 @@
 import Foundation
 
 protocol MoviesDataProviderProtocol {
-    func fetchPopularMovies(page: Int) async throws -> Movie.Response
+    func fetchPopularMovies(request: MovieRequest) async throws -> MovieResponse
 }
 
 final class MoviesDataProvider {
     let apiClient: APIClientProtocol
-    
+
     init(apiClient: APIClientProtocol) {
         self.apiClient = apiClient
     }
 }
 
 extension MoviesDataProvider: MoviesDataProviderProtocol {
-    func fetchPopularMovies(page: Int) async throws -> Movie.Response {
-        let endpoint = MoviesEndpoint.popularMovies(page: page, language: .localeIdentifier)
+    func fetchPopularMovies(request: MovieRequest) async throws -> MovieResponse {
+        let endpoint = MoviesEndpoint.popularMovies(page: request.page, language: request.language)
         return try await apiClient.sendRequest(endpoint: endpoint)
     }
 }

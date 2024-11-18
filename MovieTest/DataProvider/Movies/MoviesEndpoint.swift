@@ -1,5 +1,5 @@
 //
-//  MovieEndpoint.swift
+//  MoviesEndpoint.swift
 //  MovieTest
 //
 //  Created by Protsak Dmytro on 18.11.2024.
