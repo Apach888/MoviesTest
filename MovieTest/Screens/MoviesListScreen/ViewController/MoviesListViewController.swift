@@ -132,7 +132,7 @@ final class MoviesListViewController: UIViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(movies)
-        dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
+        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
             guard let self else { return }
             let firstIndexPath = IndexPath(item: 0, section: 0)
             collectionView.scrollToItem(at: firstIndexPath, at: .top, animated: true)
