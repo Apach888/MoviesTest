@@ -10,6 +10,7 @@ import Foundation
 extension String {
     
     static let empty = ""
+    static let separator = ", "
 
     static var localeIdentifier: Self {
         guard

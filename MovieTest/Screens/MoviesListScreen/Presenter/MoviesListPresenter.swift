@@ -53,7 +53,7 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
                 isFetching = false
                 
                 let viewModels = response.results.map { movie in
-                    let genreNames = movie.genreIDs.compactMap { genres[$0] }.joined(separator: ", ")
+                    let genreNames = movie.genreIDs.compactMap { genres[$0] }.joined(separator: .separator)
                     return MovieViewModel(from: movie, genres: genreNames)
                 }
                 
