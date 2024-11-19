@@ -12,15 +12,15 @@ struct MovieViewModel: Hashable {
     let title: String
     let posterPath: String
     let releaseDate: String
-    let genreIDs: [Int]
+    let genres: String
     let voteAverage: Double
     
-    init(from movie: MovieItem) {
+    init(from movie: MovieItem, genres: String) {
         self.id = movie.id
         self.title = movie.title
         self.posterPath = "https://image.tmdb.org/t/p/w500" + movie.posterPath
-        self.releaseDate = movie.releaseDate
-        self.genreIDs = movie.genreIDs
+        self.releaseDate = String(movie.releaseDate.prefix(4))
+        self.genres = genres
         self.voteAverage = movie.voteAverage
     }
     

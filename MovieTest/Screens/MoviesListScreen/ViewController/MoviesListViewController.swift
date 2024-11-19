@@ -13,7 +13,7 @@ protocol MoviesListViewProtocol: AnyObject {
     func displayError(_ error: String)
 }
 
-class MoviesListViewController: UIViewController {
+final class MoviesListViewController: UIViewController {
     
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, MovieViewModel>
     

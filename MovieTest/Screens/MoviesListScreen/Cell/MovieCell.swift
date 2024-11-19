@@ -11,7 +11,6 @@ import SDWebImage
 
 final class MovieCell: UICollectionViewCell {
     
-    // MARK: - Constants
     private enum Constants {
         static let cornerRadius: CGFloat = 8
         static let posterHeightMultiplier: CGFloat = 0.6
@@ -21,8 +20,6 @@ final class MovieCell: UICollectionViewCell {
         static let titleFontSize: CGFloat = 16
         static let detailsFontSize: CGFloat = 14
     }
-    
-    // MARK: - UI Elements
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -39,14 +36,20 @@ final class MovieCell: UICollectionViewCell {
         return label
     }()
     
-    private let detailsLabel: UILabel = {
+    private let genresLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Constants.detailsFontSize, weight: .regular)
+        label.font = .systemFont(ofSize: Constants.detailsFontSize)
         label.textColor = .gray
+        label.numberOfLines = 1
         return label
     }()
     
-    // MARK: - Initializers
+    private let ratingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: Constants.detailsFontSize)
+        label.textColor = .systemBlue
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,8 +60,6 @@ final class MovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup UI
-    
     private func setupUI() {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = Constants.cornerRadius
@@ -66,7 +67,8 @@ final class MovieCell: UICollectionViewCell {
         
         contentView.addSubview(posterImageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(detailsLabel)
+        contentView.addSubview(genresLabel)
+        contentView.addSubview(ratingLabel)
         
         posterImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -75,22 +77,24 @@ final class MovieCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(posterImageView.snp.bottom).offset(Constants.verticalSpacing)
-            make.leading.equalToSuperview().offset(Constants.horizontalPadding)
-            make.trailing.equalToSuperview().inset(Constants.horizontalPadding)
+            make.leading.trailing.equalToSuperview().inset(Constants.horizontalPadding)
         }
         
-        detailsLabel.snp.makeConstraints { make in
+        genresLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constants.verticalSpacing)
             make.leading.equalToSuperview().offset(Constants.horizontalPadding)
+        }
+        
+        ratingLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Constants.verticalSpacing)
             make.trailing.equalToSuperview().inset(Constants.horizontalPadding)
         }
     }
     
-    // MARK: - Configuration
-    
     func configure(with movie: MovieViewModel) {
-        titleLabel.text = "\(movie.title), \(movie.releaseDate.prefix(4))"
-        detailsLabel.text = "Rating: \(String(format: "%.1f", movie.voteAverage))/10"
+        titleLabel.text = "\(movie.title) (\(movie.releaseDate.prefix(4)))"
+        genresLabel.text = movie.genres
+        ratingLabel.text = "⭐ \(String(format: "%.1f", movie.voteAverage))"
         posterImageView.sd_setImage(
             with: URL(string: movie.posterPath),
             placeholderImage: UIImage(named: Constants.placeholderImageName)
