@@ -28,12 +28,7 @@ final class MoviesListViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 32, height: 300)
-
+        let layout = MoviesCompositionalLayout.createLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.register(MovieCell.self)
@@ -128,7 +123,6 @@ final class MoviesListViewController: UIViewController {
     // MARK: - Diffable Data Source Updates
 
     private func updateSnapshot(with movies: [MovieViewModel]) {
-        collectionView.setContentOffset(.zero, animated: true)
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(movies)
