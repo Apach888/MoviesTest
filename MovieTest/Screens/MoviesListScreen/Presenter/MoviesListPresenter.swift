@@ -15,7 +15,7 @@ protocol MoviesListPresenterProtocol: AnyObject {
     func didTapSort()
 }
 
-final class MoviesListPresenter: MoviesListPresenterProtocol {
+final class MoviesListPresenter: MoviesListPresenterProtocol{
     // MARK: - Dependencies
     private let moviesDataProvider: MoviesDataProviderProtocol
     private weak var viewController: MoviesListViewProtocol?
@@ -71,9 +71,9 @@ final class MoviesListPresenter: MoviesListPresenterProtocol {
                 
                 movies.append(contentsOf: uniqueMovies)
                 sortMovies()
-            } catch {
+            } catch let error as APIError {
                 isFetching = false
-                router.navigate(to: .showAlert(message: error.localizedDescription))
+                router.showAlert(message: error.message)
             }
         }
     }
@@ -98,15 +98,15 @@ final class MoviesListPresenter: MoviesListPresenterProtocol {
     }
     
     func didTapMovie(movieId: Int) {
-        router.navigate(to: .details(movieId: movieId))
+        router.navigateToDetailScreen(id: movieId)
     }
     
     func didTapSort() {
-        router.navigate(to: .sort(current: currentSortOption) { [weak self] selectedSortOption in
+        router.showSortActionSheet(current: currentSortOption) { [weak self] selectedSortOption in
             guard let self else { return }
             self.currentSortOption = selectedSortOption
             self.sortMovies()
-        })
+        }
     }
     
     // MARK: - Private Methods

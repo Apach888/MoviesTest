@@ -24,40 +24,25 @@ enum SortOption: CaseIterable {
     }
 }
 
-enum MoviesRoute {
-    case details(movieId: Int)
-    case sort(current: SortOption, onSelect: ((SortOption) -> Void)?)
-    case showAlert(message: String)
-}
-
 protocol MoviesRouterProtocol: AnyObject {
-    func navigate(to route: MoviesRoute)
+    func navigateToDetailScreen(id: Int)
+    func showSortActionSheet(current: SortOption, onSelect: ((SortOption) -> Void)?)
+    func showAlert(message: String)
 }
 
 final class MoviesRouter: MoviesRouterProtocol {
     weak var view: UIViewController?
     
-    func navigate(to route: MoviesRoute) {
-        switch route {
-        case .details(let movieId):
-            showDetails(for: movieId)
-        case .sort(let current, let onSelect):
-            showSortActionSheet(current: current, onSelect: onSelect)
-        case .showAlert(let message):
-            showAlert(message: message)
-        }
-    }
-    
     // MARK: - Private Methods
     
-    private func showDetails(for movieId: Int) {
+    func navigateToDetailScreen(id: Int) {
         guard let navigationController = view?.navigationController else { return }
 //        let detailsVC = DetailsAssembly(movieId: movieId).assemble()
 //        detailsVC.navigationItem.largeTitleDisplayMode = .never
 //        navigationController.pushViewController(detailsVC, animated: true)
     }
     
-    private func showSortActionSheet(current: SortOption, onSelect: ((SortOption) -> Void)?) {
+    func showSortActionSheet(current: SortOption, onSelect: ((SortOption) -> Void)?) {
         guard let view else { return }
         
         let alert = UIAlertController(
@@ -88,7 +73,7 @@ final class MoviesRouter: MoviesRouterProtocol {
         view.present(alert, animated: true)
     }
     
-    private func showAlert(message: String) {
+    func showAlert(message: String) {
         guard let view else { return }
         
         let alert = UIAlertController(

@@ -10,7 +10,6 @@ import SnapKit
 
 protocol MoviesListViewProtocol: AnyObject {
     func displayMovies(_ movies: [MovieViewModel])
-    func displayError(_ error: String)
 }
 
 final class MoviesListViewController: UIViewController {
@@ -140,12 +139,6 @@ final class MoviesListViewController: UIViewController {
 // MARK: - MoviesListViewProtocol
 
 extension MoviesListViewController: MoviesListViewProtocol {
-    func displayError(_ error: String) {
-        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true)
-    }
-
     func displayMovies(_ movies: [MovieViewModel]) {
         self.isLoading = false
         updateSnapshot(with: movies)
