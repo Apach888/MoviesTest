@@ -129,14 +129,11 @@ final class MoviesListViewController: UIViewController {
     // MARK: - Diffable Data Source Updates
 
     private func updateSnapshot(with movies: [MovieViewModel]) {
+        collectionView.setContentOffset(.zero, animated: true)
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(movies)
-        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
-            guard let self else { return }
-            let firstIndexPath = IndexPath(item: 0, section: 0)
-            collectionView.scrollToItem(at: firstIndexPath, at: .top, animated: true)
-        }
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
