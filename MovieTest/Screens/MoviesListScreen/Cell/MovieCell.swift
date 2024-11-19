@@ -84,7 +84,7 @@ final class MovieCell: UICollectionViewCell {
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .bold)
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .white
         label.textAlignment = .center
         return label
@@ -130,7 +130,6 @@ final class MovieCell: UICollectionViewCell {
         gradientView.addSubview(titleLabel)
         gradientView.addSubview(genresLabel)
         containerView.addSubview(ratingContainerView)
-        ratingContainerView.addSubview(ratingProgressBar)
         ratingContainerView.addSubview(ratingLabel)
         containerView.addSubview(yearContainerView)
         yearContainerView.addSubview(yearLabel)
@@ -164,11 +163,6 @@ final class MovieCell: UICollectionViewCell {
             make.trailing.bottom.equalToSuperview().inset(Constants.horizontalPadding)
         }
         
-        ratingProgressBar.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
-            make.width.equalTo(0) // Установим ширину динамически
-        }
-        
         ratingLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
@@ -198,8 +192,5 @@ final class MovieCell: UICollectionViewCell {
         let rating = movie.voteAverage
         let percentage = CGFloat(rating / 10.0) // Рейтинг в процентах от 0 до 1
         ratingLabel.text = "\(Int(rating * 10))%"
-        ratingProgressBar.snp.updateConstraints { make in
-            make.width.equalTo(Constants.ratingWidth * percentage)
-        }
     }
 }
