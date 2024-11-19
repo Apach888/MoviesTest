@@ -15,7 +15,8 @@ final class MovieCell: UICollectionViewCell {
         static let cornerRadius: CGFloat = 12
         static let titleFontSize: CGFloat = 18
         static let genresFontSize: CGFloat = 14
-        static let ratingSize: CGFloat = 44
+        static let ratingHeight: CGFloat = 20
+        static let ratingWidth: CGFloat = 80
         static let yearFontSize: CGFloat = 14
         static let horizontalPadding: CGFloat = 12
         static let verticalPadding: CGFloat = 8
@@ -67,19 +68,24 @@ final class MovieCell: UICollectionViewCell {
         return label
     }()
     
-    private let ratingView: UIView = {
+    private let ratingContainerView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = Constants.ratingSize / 2
+        view.layer.cornerRadius = Constants.ratingHeight / 2
         view.backgroundColor = .black.withAlphaComponent(Constants.overlayOpacity)
-        view.layer.borderColor = UIColor.green.cgColor
-        view.layer.borderWidth = 2
+        return view
+    }()
+    
+    private let ratingProgressBar: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constants.ratingHeight / 2
+        view.backgroundColor = .green
         return view
     }()
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .green
+        label.font = .systemFont(ofSize: 12, weight: .bold)
+        label.textColor = .white
         label.textAlignment = .center
         return label
     }()
@@ -123,8 +129,9 @@ final class MovieCell: UICollectionViewCell {
         containerView.addSubview(gradientView)
         gradientView.addSubview(titleLabel)
         gradientView.addSubview(genresLabel)
-        containerView.addSubview(ratingView)
-        ratingView.addSubview(ratingLabel)
+        containerView.addSubview(ratingContainerView)
+        ratingContainerView.addSubview(ratingProgressBar)
+        ratingContainerView.addSubview(ratingLabel)
         containerView.addSubview(yearContainerView)
         yearContainerView.addSubview(yearLabel)
         
@@ -151,9 +158,15 @@ final class MovieCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(Constants.verticalPadding)
         }
         
-        ratingView.snp.makeConstraints { make in
-            make.width.height.equalTo(Constants.ratingSize)
+        ratingContainerView.snp.makeConstraints { make in
+            make.width.equalTo(Constants.ratingWidth)
+            make.height.equalTo(Constants.ratingHeight)
             make.trailing.bottom.equalToSuperview().inset(Constants.horizontalPadding)
+        }
+        
+        ratingProgressBar.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(0) // Установим ширину динамически
         }
         
         ratingLabel.snp.makeConstraints { make in
@@ -176,11 +189,17 @@ final class MovieCell: UICollectionViewCell {
     func configure(with movie: MovieViewModel) {
         titleLabel.text = movie.title
         genresLabel.text = movie.genres
-        ratingLabel.text = "\(Int(movie.voteAverage * 10))%"
         yearLabel.text = String(movie.releaseDate.prefix(4))
         posterImageView.sd_setImage(
             with: URL(string: movie.posterPath),
             placeholderImage: UIImage(named: Constants.placeholderImageName)
         )
+        
+        let rating = movie.voteAverage
+        let percentage = CGFloat(rating / 10.0) // Рейтинг в процентах от 0 до 1
+        ratingLabel.text = "\(Int(rating * 10))%"
+        ratingProgressBar.snp.updateConstraints { make in
+            make.width.equalTo(Constants.ratingWidth * percentage)
+        }
     }
 }
