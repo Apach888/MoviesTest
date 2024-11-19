@@ -123,28 +123,7 @@ final class MoviesListViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func didTapSortButton() {
-        let actionSheet = UIAlertController(title: "Sort Movies", message: nil, preferredStyle: .actionSheet)
-        
-        let sortByTitleAction = UIAlertAction(title: "By Title", style: .default) { [weak self] _ in
-            self?.presenter?.sortMovies(by: "By Title")
-        }
-        
-        let sortByRatingAction = UIAlertAction(title: "By Rating", style: .default) { [weak self] _ in
-            self?.presenter?.sortMovies(by: "By Rating")
-        }
-        
-        let sortByReleaseDateAction = UIAlertAction(title: "By Release Date", style: .default) { [weak self] _ in
-            self?.presenter?.sortMovies(by: "By Release Date")
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(sortByTitleAction)
-        actionSheet.addAction(sortByRatingAction)
-        actionSheet.addAction(sortByReleaseDateAction)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true, completion: nil)
+        presenter?.didTapSort()
     }
     
     // MARK: - Diffable Data Source Updates
@@ -185,6 +164,11 @@ extension MoviesListViewController: UICollectionViewDelegate {
             isLoading = true
             presenter?.fetchMovies()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedMovie = dataSource.itemIdentifier(for: indexPath) else { return }
+        presenter?.didTapMovie(movieId: selectedMovie.id)
     }
 }
 

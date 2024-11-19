@@ -9,30 +9,36 @@ import Foundation
 
 protocol MoviesListPresenterProtocol: AnyObject {
     func fetchMovies()
-    func sortMovies(by option: String)
+    func sortMovies()
     func searchMovies(by query: String)
+    func didTapMovie(movieId: Int)
+    func didTapSort()
 }
 
 final class MoviesListPresenter {
     // MARK: - Dependencies
     private let moviesDataProvider: MoviesDataProviderProtocol
     private weak var viewController: MoviesListViewProtocol?
+    private let router: MoviesRouterProtocol
     
     // MARK: - State
     private var currentPage = 1
     private var totalPages = 1
     private var isFetching = false
     private var genres: [Int: String] = [:]
-    private var movies: [MovieViewModel] = [] // Full list of movies
-    private var filteredMovies: [MovieViewModel] = [] // Filtered list of movies for search
+    private var movies: [MovieViewModel] = []
+    private var filteredMovies: [MovieViewModel] = []
+    private var currentSortOption: SortOption = .userScore
 
     // MARK: - Initialization
     init(
         moviesDataProvider: MoviesDataProviderProtocol,
-        viewController: MoviesListViewProtocol
+        viewController: MoviesListViewProtocol,
+        router: MoviesRouterProtocol
     ) {
         self.moviesDataProvider = moviesDataProvider
         self.viewController = viewController
+        self.router = router
     }
 }
 
@@ -41,50 +47,54 @@ final class MoviesListPresenter {
 extension MoviesListPresenter: MoviesListPresenterProtocol {
     func fetchMovies() {
         guard !isFetching, currentPage <= totalPages else { return }
-        
+
         isFetching = true
-        
+
         Task { @MainActor in
             do {
                 if genres.isEmpty {
                     genres = try await fetchGenres()
                 }
-                
+
                 let response = try await moviesDataProvider.fetchPopularMovies(
                     request: MovieRequest(page: currentPage, language: .localeIdentifier)
                 )
-                
+
                 totalPages = response.totalPages
                 currentPage += 1
                 isFetching = false
-                
+
                 let viewModels = response.results.map { movie in
                     let genreNames = movie.genreIDs.compactMap { genres[$0] }.joined(separator: .separator)
                     return MovieViewModel(from: movie, genres: genreNames)
                 }
+
+                let uniqueMovies = viewModels.filter { newMovie in
+                    !movies.contains(where: { $0.id == newMovie.id })
+                }
+
+                movies.append(contentsOf: uniqueMovies)
+                filteredMovies = movies
                 
-                movies.append(contentsOf: viewModels)
-                filteredMovies = movies // Reset filteredMovies after fetching new data
                 viewController?.displayMovies(filteredMovies)
             } catch {
                 isFetching = false
-                viewController?.displayError(error.localizedDescription)
+                router.navigate(to: .showAlert(message: error.localizedDescription))
             }
         }
     }
     
-    func sortMovies(by option: String) {
-        switch option {
-        case "By Title":
-            filteredMovies.sort { $0.title < $1.title }
-        case "By Rating":
-            filteredMovies.sort { $0.voteAverage > $1.voteAverage }
-        case "By Release Date":
-            filteredMovies.sort { $0.releaseDate > $1.releaseDate }
-        default:
-            break
+    func sortMovies() {
+        let sortedMovies: [MovieViewModel]
+        switch currentSortOption {
+        case .alphabet:
+            sortedMovies = filteredMovies.sorted { $0.title < $1.title }
+        case .releaseDate:
+            sortedMovies = filteredMovies.sorted { $0.releaseDate > $1.releaseDate }
+        case .userScore:
+            sortedMovies = filteredMovies.sorted { $0.voteAverage > $1.voteAverage }
         }
-        viewController?.displayMovies(filteredMovies)
+        viewController?.displayMovies(sortedMovies)
     }
     
     func searchMovies(by query: String) {
@@ -93,7 +103,18 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
         } else {
             filteredMovies = movies.filter { $0.title.lowercased().contains(query.lowercased()) }
         }
-        viewController?.displayMovies(filteredMovies)
+        sortMovies()
+    }
+    
+    func didTapMovie(movieId: Int) {
+        router.navigate(to: .details(movieId: movieId))
+    }
+    
+    func didTapSort() {
+        router.navigate(to: .sort(current: currentSortOption) { [weak self] selectedSortOption in
+            self?.currentSortOption = selectedSortOption
+            self?.sortMovies()
+        })
     }
 }
 
