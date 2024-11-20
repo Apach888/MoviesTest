@@ -6,13 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		5F96E2922CEA772B007F78A9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96E2912CEA772B007F78A9 /* SnapKit */; };
-		5F96E2952CEA77A7007F78A9 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96E2942CEA77A7007F78A9 /* Alamofire */; };
-		5F96E2982CEA77D3007F78A9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96E2972CEA77D3007F78A9 /* SDWebImage */; };
-		5F96E29B2CEA782F007F78A9 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96E29A2CEA782F007F78A9 /* Swinject */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		5F96E25E2CEA73D9007F78A9 /* MovieTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -43,10 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F96E2982CEA77D3007F78A9 /* SDWebImage in Frameworks */,
-				5F96E2922CEA772B007F78A9 /* SnapKit in Frameworks */,
-				5F96E2952CEA77A7007F78A9 /* Alamofire in Frameworks */,
-				5F96E29B2CEA782F007F78A9 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,10 +78,6 @@
 			);
 			name = MovieTest;
 			packageProductDependencies = (
-				5F96E2912CEA772B007F78A9 /* SnapKit */,
-				5F96E2942CEA77A7007F78A9 /* Alamofire */,
-				5F96E2972CEA77D3007F78A9 /* SDWebImage */,
-				5F96E29A2CEA782F007F78A9 /* Swinject */,
 			);
 			productName = MovieTest;
 			productReference = 5F96E25E2CEA73D9007F78A9 /* MovieTest.app */;
@@ -122,12 +107,6 @@
 			);
 			mainGroup = 5F96E2552CEA73D9007F78A9;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				5F96E2902CEA772B007F78A9 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				5F96E2932CEA77A7007F78A9 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				5F96E2962CEA77D3007F78A9 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				5F96E2992CEA782F007F78A9 /* XCRemoteSwiftPackageReference "Swinject" */,
-			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5F96E25F2CEA73D9007F78A9 /* Products */;
 			projectDirPath = "";
@@ -166,16 +145,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AK2LFP955B;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieTest/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Movie Test";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -183,13 +159,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MovieTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -200,16 +172,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AK2LFP955B;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MovieTest/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Movie Test";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -217,13 +186,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MovieTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -368,64 +333,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		5F96E2902CEA772B007F78A9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
-		5F96E2932CEA77A7007F78A9 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.10.1;
-			};
-		};
-		5F96E2962CEA77D3007F78A9 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.20.0;
-			};
-		};
-		5F96E2992CEA782F007F78A9 /* XCRemoteSwiftPackageReference "Swinject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Swinject/Swinject.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.9.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5F96E2912CEA772B007F78A9 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F96E2902CEA772B007F78A9 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		5F96E2942CEA77A7007F78A9 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F96E2932CEA77A7007F78A9 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		5F96E2972CEA77D3007F78A9 /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F96E2962CEA77D3007F78A9 /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
-		};
-		5F96E29A2CEA782F007F78A9 /* Swinject */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F96E2992CEA782F007F78A9 /* XCRemoteSwiftPackageReference "Swinject" */;
-			productName = Swinject;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F96E2562CEA73D9007F78A9 /* Project object */;
 }
